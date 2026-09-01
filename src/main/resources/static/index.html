@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Bank Account Management System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e0eafc, #cfdef3);
+            padding: 30px 15px;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.92);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            color: #1f2937;
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 18px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            color: #29384a;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        .create-btn {
+            background: #2563eb;
+        }
+
+        .show-btn {
+            background: #7c3aed;
+            margin-top: 20px;
+        }
+
+        .deposit-btn {
+            background: #16a34a;
+        }
+
+        .withdraw-btn {
+            background: #f59e0b;
+        }
+
+        .balance-btn {
+            background: #475569;
+        }
+
+        .delete-btn {
+            background: #dc2626;
+        }
+
+        #result {
+            margin-top: 30px;
+            padding: 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            min-height: 60px;
+            font-size: 17px;
+            color: #1f2937;
+        }
+
+        .account {
+            padding: 15px;
+            margin-top: 15px;
+            background: #f1f5f9;
+            border-left: 5px solid #2563eb;
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 950px) {
+
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            body {
+                padding: 15px 10px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="container">
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <h1>🏦 Bank Account Management System</h1>
+
+            <p>Manage Your Bank Accounts Easily</p>
+
+        </div>
+
+
+        <!-- ALL CARDS -->
+
+        <div class="grid">
+
+
+            <!-- CREATE ACCOUNT -->
+
+            <div class="card">
+
+                <h2>➕ Create Account</h2>
+
+                <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter Name">
+
+                <input
+                    type="number"
+                    id="accountNumber"
+                    placeholder="Enter Account Number">
+
+                <input
+                    type="number"
+                    id="balance"
+                    placeholder="Enter Initial Balance">
+
+                <button
+                    class="create-btn"
+                    onclick="createAccount()">
+
+                    Create Account
+
+                </button>
+
+            </div>
+
+
+            <!-- SHOW ACCOUNTS -->
+
+            <div class="card">
+
+                <h2>📋 View Accounts</h2>
+
+                <p style="color:#64748b; margin-bottom:20px;">
+
+                    Click below to see all accounts.
+
+                </p>
+
+                <button
+                    class="show-btn"
+                    onclick="showAccounts()">
+
+                    Show All Accounts
+
+                </button>
+
+            </div>
+
+
+            <!-- DEPOSIT -->
+
+            <div class="card">
+
+                <h2>💵 Deposit Money</h2>
+
+                <input
+                    type="number"
+                    id="depositId"
+                    placeholder="Enter Account ID">
+
+                <input
+                    type="number"
+                    id="depositAmount"
+                    placeholder="Enter Amount">
+
+                <button
+                    class="deposit-btn"
+                    onclick="depositMoney()">
+
+                    Deposit Money
+
+                </button>
+
+            </div>
+
+
+            <!-- WITHDRAW -->
+
+            <div class="card">
+
+                <h2>💸 Withdraw Money</h2>
+
+                <input
+                    type="number"
+                    id="withdrawId"
+                    placeholder="Enter Account ID">
+
+                <input
+                    type="number"
+                    id="withdrawAmount"
+                    placeholder="Enter Amount">
+
+                <button
+                    class="withdraw-btn"
+                    onclick="withdrawMoney()">
+
+                    Withdraw Money
+
+                </button>
+
+            </div>
+
+
+            <!-- CHECK BALANCE -->
+
+            <div class="card">
+
+                <h2>💳 Check Balance</h2>
+
+                <input
+                    type="number"
+                    id="balanceId"
+                    placeholder="Enter Account ID">
+
+                <button
+                    class="balance-btn"
+                    onclick="checkBalance()">
+
+                    Check Balance
+
+                </button>
+
+            </div>
+
+
+            <!-- DELETE ACCOUNT -->
+
+            <div class="card">
+
+                <h2>🗑 Delete Account</h2>
+
+                <input
+                    type="number"
+                    id="deleteId"
+                    placeholder="Enter Account ID">
+
+                <button
+                    class="delete-btn"
+                    onclick="deleteAccount()">
+
+                    Delete Account
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- RESULT -->
+
+        <div id="result">
+
+            Welcome! Create an account to get started.
+
+        </div>
+
+
+    </div>
+
+
+    <script>
+
+        function showResult(message) {
+
+            document.getElementById("result").innerHTML = message;
+
+        }
+
+
+        /* CREATE ACCOUNT */
+
+        function createAccount() {
+
+            const name =
+                document.getElementById("name").value.trim();
+
+            const accountNumber =
+                document.getElementById("accountNumber").value;
+
+            const balance =
+                document.getElementById("balance").value;
+
+
+            if (!name || !accountNumber || !balance) {
+
+                showResult("❌ Please fill all fields.");
+
+                return;
+            }
+
+
+            fetch(
+
+                "/create?name=" +
+                encodeURIComponent(name) +
+                "&accountNumber=" +
+                encodeURIComponent(accountNumber) +
+                "&balance=" +
+                encodeURIComponent(balance),
+
+                {
+                    method: "POST"
+                }
+
+            )
+
+            .then(async response => {
+
+                const data = await response.text();
+
+                if (!response.ok) {
+
+                    throw new Error(data);
+
+                }
+
+                return JSON.parse(data);
+
+            })
+
+            .then(account => {
+
+                showResult(
+
+                    "✅ <b>Account Created Successfully!</b><br><br>" +
+
+                    "🆔 Account ID: <b>" +
+                    account.id +
+
+                    "</b><br>" +
+
+                    "👤 Name: " +
+                    account.name +
+
+                    "<br>" +
+
+                    "🏦 Account Number: " +
+                    account.accountNumber +
+
+                    "<br>" +
+
+                    "💰 Balance: ₹" +
+                    account.balance
+
+                );
+
+
+                document.getElementById("name").value = "";
+
+                document.getElementById("accountNumber").value = "";
+
+                document.getElementById("balance").value = "";
+
+            })
+
+            .catch(error => {
+
+                showResult(
+
+                    "❌ <b>" +
+                    error.message +
+                    "</b>"
+
+                );
+
+            });
+
+        }
+
+
+        /* SHOW ACCOUNTS */
+
+        function showAccounts() {
+
+            fetch("/accounts")
+
+            .then(response => {
+
+                if (!response.ok) {
+
+                    throw new Error("Unable to load accounts");
+
+                }
+
+                return response.json();
+
+            })
+
+            .then(accounts => {
+
+                if (accounts.length === 0) {
+
+                    showResult("📭 No accounts found.");
+
+                    return;
+                }
+
+
+                let result =
+
+                    "<h2>📋 All Accounts</h2>";
+
+
+                accounts.forEach(account => {
+
+                    result +=
+
+                        "<div class='account'>" +
+
+                        "<b>🆔 ID:</b> " +
+                        account.id +
+
+                        "<br><b>👤 Name:</b> " +
+                        account.name +
+
+                        "<br><b>🏦 Account Number:</b> " +
+                        account.accountNumber +
+
+                        "<br><b>💰 Balance:</b> ₹" +
+                        account.balance +
+
+                        "</div>";
+
+                });
+
+
+                showResult(result);
+
+            })
+
+            .catch(error => {
+
+                showResult(
+
+                    "❌ " +
+                    error.message
+
+                );
+
+            });
+
+        }
+
+
+        /* DEPOSIT MONEY */
+
+        function depositMoney() {
+
+            const id =
+                document.getElementById("depositId").value;
+
+            const amount =
+                document.getElementById("depositAmount").value;
+
+
+            if (!id || !amount) {
+
+                showResult(
+                    "❌ Please enter Account ID and Amount."
+                );
+
+                return;
+            }
+
+
+            fetch(
+
+                "/deposit?id=" +
+                encodeURIComponent(id) +
+
+                "&amount=" +
+                encodeURIComponent(amount),
+
+                {
+                    method: "PUT"
+                }
+
+            )
+
+            .then(async response => {
+
+                const text =
+                    await response.text();
+
+                if (!response.ok) {
+
+                    throw new Error(text);
+
+                }
+
+                return JSON.parse(text);
+
+            })
+
+            .then(account => {
+
+                showResult(
+
+                    "✅ <b>Money Deposited Successfully!</b>" +
+
+                    "<br><br>" +
+
+                    "🆔 Account ID: " +
+                    account.id +
+
+                    "<br>" +
+
+                    "💰 New Balance: <b>₹" +
+                    account.balance +
+                    "</b>"
+
+                );
+
+            })
+
+            .catch(error => {
+
+                showResult(
+                    "❌ " + error.message
+                );
+
+            });
+
+        }
+
+
+        /* WITHDRAW MONEY */
+
+        function withdrawMoney() {
+
+            const id =
+                document.getElementById("withdrawId").value;
+
+            const amount =
+                document.getElementById("withdrawAmount").value;
+
+
+            if (!id || !amount) {
+
+                showResult(
+                    "❌ Please enter Account ID and Amount."
+                );
+
+                return;
+            }
+
+
+            fetch(
+
+                "/withdraw?id=" +
+                encodeURIComponent(id) +
+
+                "&amount=" +
+                encodeURIComponent(amount),
+
+                {
+                    method: "PUT"
+                }
+
+            )
+
+            .then(async response => {
+
+                const text =
+                    await response.text();
+
+                if (!response.ok) {
+
+                    throw new Error(text);
+
+                }
+
+                return JSON.parse(text);
+
+            })
+
+            .then(account => {
+
+                showResult(
+
+                    "✅ <b>Money Withdrawn Successfully!</b>" +
+
+                    "<br><br>" +
+
+                    "🆔 Account ID: " +
+                    account.id +
+
+                    "<br>" +
+
+                    "💰 Remaining Balance: <b>₹" +
+                    account.balance +
+                    "</b>"
+
+                );
+
+            })
+
+            .catch(error => {
+
+                showResult(
+                    "❌ " + error.message
+                );
+
+            });
+
+        }
+
+
+        /* CHECK BALANCE */
+
+        function checkBalance() {
+
+            const id =
+                document.getElementById("balanceId").value;
+
+
+            if (!id) {
+
+                showResult(
+                    "❌ Please enter Account ID."
+                );
+
+                return;
+            }
+
+
+            fetch(
+
+                "/balance?id=" +
+                encodeURIComponent(id)
+
+            )
+
+            .then(async response => {
+
+                const text =
+                    await response.text();
+
+                if (!response.ok) {
+
+                    throw new Error(text);
+
+                }
+
+                return JSON.parse(text);
+
+            })
+
+            .then(account => {
+
+                showResult(
+
+                    "💳 <b>Account Balance Details</b>" +
+
+                    "<br><br>" +
+
+                    "🆔 Account ID: " +
+                    account.id +
+
+                    "<br>" +
+
+                    "👤 Name: " +
+                    account.name +
+
+                    "<br>" +
+
+                    "💰 Current Balance: <b>₹" +
+                    account.balance +
+                    "</b>"
+
+                );
+
+            })
+
+            .catch(error => {
+
+                showResult(
+                    "❌ " + error.message
+                );
+
+            });
+
+        }
+
+
+        /* DELETE ACCOUNT */
+
+        function deleteAccount() {
+
+            const id =
+                document.getElementById("deleteId").value;
+
+
+            if (!id) {
+
+                showResult(
+                    "❌ Please enter Account ID."
+                );
+
+                return;
+            }
+
+
+            const confirmDelete =
+
+                confirm(
+                    "Are you sure you want to delete Account ID: " +
+                    id +
+                    "?"
+                );
+
+
+            if (!confirmDelete) {
+
+                return;
+            }
+
+
+            fetch(
+
+                "/delete?id=" +
+                encodeURIComponent(id),
+
+                {
+                    method: "DELETE"
+                }
+
+            )
+
+            .then(async response => {
+
+                const text =
+                    await response.text();
+
+                if (!response.ok) {
+
+                    throw new Error(text);
+
+                }
+
+                return text;
+
+            })
+
+            .then(message => {
+
+                showResult(
+
+                    "🗑️ <b>" +
+                    message +
+                    "</b>"
+
+                );
+
+            })
+
+            .catch(error => {
+
+                showResult(
+                    "❌ " + error.message
+                );
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>
